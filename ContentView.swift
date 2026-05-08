@@ -1,61 +1,35 @@
-//
-//  ContentView.swift
-//  ShapeShift
-//
-//  Created by Joáo Vitor Franca on 07/05/26.
-//
-
 import SwiftUI
 import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query private var logs: [Progress]
 
     var body: some View {
-        NavigationSplitView {
+        NavigationStack {
             List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
+                ForEach(logs) { log in
+                    Text(log.timestamp, style: .date)
                 }
                 .onDelete(perform: deleteItems)
             }
+            .navigationTitle("ShapeShift")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+                Button(action: addItem) {
+                    Label("Add", systemImage: "plus")
                 }
             }
-        } detail: {
-            Text("Select an item")
         }
     }
 
     private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
+        let newItem = Progress()
+        modelContext.insert(newItem)
     }
 
     private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
+        for index in offsets {
+            modelContext.delete(logs[index])
+        }	
     }
-}
-
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
