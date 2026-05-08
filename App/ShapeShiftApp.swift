@@ -13,8 +13,7 @@ struct ShapeShiftApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-                .enviroment(appState)
         }
-        .modelContainer(for: Progress.self)
+        .modelContainer(for: UserProfile.self)
     }
 }
