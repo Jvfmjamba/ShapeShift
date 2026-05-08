@@ -16,10 +16,10 @@ struct ShapeShiftApp: App {
         }
         .modelContainer(for:[
         UserProfile.self,
-        DailyLog.self,
-        Meals.self,
-        WeightEntry.self,
-        ChecklistItem.self
+        DailyLog.self
+        //Meals.self,
+        //WeightEntry.self,
+        //ChecklistItem.self
         ])
     }
 }

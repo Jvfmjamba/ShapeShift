@@ -4,3 +4,7 @@ DerivedData/
 *.xcuserstate
 *.xcuserdata
 *.env
+Secrets.xcconfig
+APIKeys.plist
+Info.plist
+
