@@ -4,16 +4,29 @@
 //
 //  Created by Joáo Vitor Franca on 07/05/26.
 //
-import Foundation
 import SwiftUI
 
 struct MainTabView: View {
     var body: some View {
-        TabView{//cria a barra inferior
+        TabView {
+            //dashboard
             HomeView()
-                .tabItem{
+                .tabItem {
                     Label("Início", systemImage: "house")
                 }
+            
+            //checklist
+            Text("Checklist de Hábitos")
+                .tabItem {
+                    Label("Hábitos", systemImage: "checklist")
+                }
+            
+            //config
+            Text("Configurações")
+                .tabItem {
+                    Label("Perfil", systemImage: "person.circle")
+                }
         }
+        .tint(.orange)
     }
 }
