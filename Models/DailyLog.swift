@@ -13,7 +13,7 @@ final class DailyLog {
     var calConsumed: Double
     var waterConsumed: Double
     
-    init(date: Date, calConsumed: Double, waterConsumed: Double) {
+    init(date: Date=Date(), calConsumed: Double=0, waterConsumed: Double=0) {
         self.date = date
         self.calConsumed = calConsumed
         self.waterConsumed = waterConsumed
