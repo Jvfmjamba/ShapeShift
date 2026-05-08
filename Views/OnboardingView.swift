@@ -16,6 +16,7 @@ struct OnboardingView: View {
     @State private var heightcm: String = ""
     @State private var age: String = ""
     @State private var goalweightkg: String = ""
+    @State private var isMale: Bool = true
     
     var body: some View {
         NavigationStack{
@@ -24,13 +25,23 @@ struct OnboardingView: View {
                     TextField("Nome", text: $name)
                     TextField("Idade", text: $age)
                 }
+                
+                Picker("Gênero", selection: $isMale){
+                    Text("Masculino").tag(true)
+                    Text("Feminino").tag(false)
+                }
+                .pickerStyle(.segmented)
+                .padding()
+                
                 Section("Suas medidas"){
                     TextField("Peso atual (kg)", text: $weightkg)
                     TextField("Altura (cm)", text: $heightcm)
                 }
+                
                 Section("Meta"){
                     TextField("Meta de peso", text: $goalweightkg)
                 }
+                
                 Button("Começar jornada!"){
                     saveProfile()
                 }
@@ -52,7 +63,8 @@ struct OnboardingView: View {
             age: ageInt,
             heightcm: heightcmDouble,
             weightkg: weightkgDouble,
-            goalweightkg: goalwheightkgDouble
+            goalweightkg: goalwheightkgDouble,
+            isMale: isMale
         )
         modelContext.insert(newProfile)
     }
