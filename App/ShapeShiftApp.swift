@@ -12,7 +12,8 @@ import SwiftData
 struct ShapeShiftApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .enviroment(appState)
         }
         .modelContainer(for: Progress.self)
     }

@@ -6,3 +6,9 @@
 //
 import Foundation
 
+struct UserProfile: Codable{
+    var name: String
+    var age: Int
+    var heightcm: Double
+    var weightkg: Double
+}
