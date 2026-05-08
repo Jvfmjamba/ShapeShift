@@ -6,5 +6,4 @@ DerivedData/
 *.env
 Secrets.xcconfig
 APIKeys.plist
-Info.plist
-
+xcuserdata/*.userdata
