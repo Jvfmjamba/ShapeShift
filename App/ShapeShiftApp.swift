@@ -14,6 +14,12 @@ struct ShapeShiftApp: App {
         WindowGroup {
             RootView()
         }
-        .modelContainer(for: UserProfile.self)
+        .modelContainer(for:[
+        UserProfile.self,
+        DailyLog.self,
+        Meals.self,
+        WeightEntry.self,
+        ChecklistItem.self
+        ])
     }
 }

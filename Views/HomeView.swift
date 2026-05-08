@@ -32,7 +32,7 @@ struct HomeView: View {
                         .padding(.horizontal)
                     }
 
-                    //dashboard: de dailycal
+                    //dashboard: dailycal
                     VStack(spacing: 15) {
                         HStack {
                             Text("Calorias de Hoje")
@@ -67,7 +67,6 @@ struct HomeView: View {
                 }
                 .padding(.top)
             }
-            .navigationTitle("ShapeShift")
         }
     }
 }
