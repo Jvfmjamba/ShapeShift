@@ -14,7 +14,11 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Início", systemImage: "house")
                 }
-            
+            //refeicoes
+            MealsView()
+                .tabItem {
+                    Label("Refeições", systemImage: "fork.knife")
+                }
             //checklist
             Text("Checklist de Hábitos")
                 .tabItem {

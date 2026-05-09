@@ -8,15 +8,14 @@ import Foundation
 import SwiftData
 
 @Model
-final class DailyLog {
+class DailyLog {
     var date: Date
-    var calConsumed: Double
     var waterConsumed: Double
-    
-    init(date: Date=Date(), calConsumed: Double=0, waterConsumed: Double=0) {
-        self.date = date
-        self.calConsumed = calConsumed
-        self.waterConsumed = waterConsumed
+    var calConsumed: Double
+
+    init() {
+        self.date = Calendar.current.startOfDay(for: Date())
+        self.waterConsumed = 0.0
+        self.calConsumed = 0.0
     }
-    
 }

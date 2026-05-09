@@ -5,21 +5,26 @@
 //  Created by Joáo Vitor Franca on 07/05/26.
 //
 
+// ShapeShiftApp.swift
+// Ponto de entrada do app.
+// Aqui criamos o AppState e o disponibilizamos para todas as telas.
+
 import SwiftUI
 import SwiftData
 
 @main
 struct ShapeShiftApp: App {
+
     var body: some Scene {
         WindowGroup {
             RootView()
         }
-        .modelContainer(for:[
-        UserProfile.self,
-        DailyLog.self
-        //Meals.self,
-        //WeightEntry.self,
-        //ChecklistItem.self
+        .modelContainer(for: [
+            UserProfile.self,
+            Meals.self,
+            ChecklistItem.self,
+            WeightEntry.self,
+            DailyLog.self
         ])
     }
 }

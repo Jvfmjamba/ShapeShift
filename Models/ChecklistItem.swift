@@ -5,15 +5,22 @@
 //  Created by Joáo Vitor Franca on 07/05/26.
 //
 import Foundation
+import SwiftData
 
-struct ChecklistItem: Codable, Identifiable{
-    var id: UUID = UUID()
+@Model
+class ChecklistItem {
     var title: String
-    var isCompleted: Bool = false
+    var isCompleted: Bool
     var lastCompletedDate: Date?
-    
-    var isCompletedToday: Bool{
-        guard let date = lastCompletedDate else {return false}
+
+    var isCompletedToday: Bool {
+        guard let date = lastCompletedDate else { return false }
         return Calendar.current.isDateInToday(date)
+    }
+
+    init(title: String) {
+        self.title = title
+        self.isCompleted = false
+        self.lastCompletedDate = nil
     }
 }
