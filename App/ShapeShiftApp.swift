@@ -14,7 +14,6 @@ import SwiftData
 
 @main
 struct ShapeShiftApp: App {
-
     var body: some Scene {
         WindowGroup {
             RootView()
@@ -22,6 +21,7 @@ struct ShapeShiftApp: App {
         .modelContainer(for: [
             UserProfile.self,
             Meals.self,
+            FoodItem.self,
             ChecklistItem.self,
             WeightEntry.self,
             DailyLog.self

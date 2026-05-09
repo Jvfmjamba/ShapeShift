@@ -16,23 +16,27 @@ import SwiftData
 @Model
 class Meals {
     var name: String
-    var calories: Double
-    var protein: Double
-    var carbs: Double
-    var fat: Double
     var registeredAt: Date
+    @Relationship(deleteRule: .cascade) var foodItems: [FoodItem] = []
 
+    var totalCalories: Double {
+        return foodItems.reduce(0) { $0 + $1.calories }
+    }
+    var totalProtein: Double {
+        return foodItems.reduce(0) { $0 + $1.protein }
+    }
+    var totalCarbs: Double {
+        return foodItems.reduce(0) { $0 + $1.carbs }
+    }
+    var totalFat: Double {
+        return foodItems.reduce(0) { $0 + $1.fat }
+    }
     var isFromToday: Bool {
         return Calendar.current.isDateInToday(registeredAt)
     }
 
-    init(name: String, calories: Double, protein: Double,
-         carbs: Double, fat: Double) {
+    init(name: String) {
         self.name = name
-        self.calories = calories
-        self.protein = protein
-        self.carbs = carbs
-        self.fat = fat
         self.registeredAt = Date()
     }
 }

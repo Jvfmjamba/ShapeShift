@@ -13,8 +13,6 @@ import SwiftUI
 import SwiftData
 
 struct OnboardingView: View {
-
-    
     @Environment(\.modelContext) private var modelContext
 
     @State private var name: String = ""
@@ -75,14 +73,7 @@ struct OnboardingView: View {
             goalWeightKg: Double(goalWeightKg) ?? 0.0,
             isMale: isMale
         )
-
         modelContext.insert(newProfile)
-
-        
-        do {
-            try modelContext.save()
-        } catch {
-            print("Erro ao salvar perfil: \(error)")
-        }
+        try? modelContext.save()
     }
 }

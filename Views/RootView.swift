@@ -8,8 +8,6 @@ import SwiftUI
 import SwiftData
 
 struct RootView: View {
-
-    //busca todos os usuários salvos no banco
     @Query private var users: [UserProfile]
 
     var body: some View {
