@@ -1,54 +1,96 @@
-//
 //  GeminiService.swift
 //  ShapeShift
 //
-//  Created by Joáo Vitor Franca on 08/05/26.
+//  Created by João Vitor Franca on 08/05/26.
 //
-// GeminiService.swift
-
 
 import Foundation
-import GoogleGenerativeAI
 import UIKit
 
 @Observable
 class GeminiService {
 
-    private let model = GenerativeModel(
-        name: "gemini-1.5-flash",
-        apiKey: APIConfig.apiKey
-    )
+    
+    private let apiURL = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent"
 
     func analyzeMeal(description: String, image: UIImage?) async -> String? {
 
+        
+        guard let url = URL(string: "\(apiURL)?key=\(APIConfig.apiKey)") else {
+            print("URL inválida")
+            return nil
+        }
+
+        
         let prompt = """
         Analise esta refeição: \(description).
-        Retorne APENAS um JSON com este formato exato:
+        Retorne APENAS um JSON puro com este formato exato, sem markdown e sem explicações:
         { "name": "string", "calories": 0.0, "protein": 0.0, "carbs": 0.0, "fat": 0.0 }
-        Sem markdown, sem explicação, apenas o JSON.
         """
 
-        do {
+        
+        let textPart: [String: Any] = ["text": prompt]
+        var parts: [[String: Any]] = [textPart]
+
+        if let uiImage = image,
+           let imageData = uiImage.jpegData(compressionQuality: 0.5) {
             
-            if let uiImage = image {
+            let base64String = imageData.base64EncodedString()
+            let imagePart: [String: Any] = [
+                "inlineData": [
+                    "mimeType": "image/jpeg",
+                    "data": base64String
+                ]
+            ]
+            parts.append(imagePart)
+        }
 
-                
-                
-                let response = try await model.generateContent(prompt, uiImage)
-                return response.text
+        let requestBody: [String: Any] = [
+            "contents": [
+                ["parts": parts]
+            ]
+        ]
 
-            } else {
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-                
-                let response = try await model.generateContent(prompt)
-                return response.text
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: requestBody) else {
+            print("Erro ao montar o JSON da requisição")
+            return nil
+        }
+        request.httpBody = httpBody
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+        
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                if let errorString = String(data: data, encoding: .utf8) {
+                    print("Erro da API (\(httpResponse.statusCode)): \(errorString)")
+                }
+                return nil
             }
 
+        
+            guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let candidates = json["candidates"] as? [[String: Any]],
+                  let firstCandidate = candidates.first,
+                  let content = firstCandidate["content"] as? [String: Any],
+                  let parts = content["parts"] as? [[String: Any]],
+                  let firstPart = parts.first,
+                  let text = firstPart["text"] as? String
+            else {
+                print("Erro ao processar estrutura do JSON de resposta")
+                return nil
+            }
+
+            return text
+
         } catch {
-            
-            print("Erro ao chamar o Gemini: \(error)")
+            print("Erro na chamada da API: \(error.localizedDescription)")
             return nil
         }
     }
 }
-
