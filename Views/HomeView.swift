@@ -1,4 +1,4 @@
-//
+// 
 //  HomeView.swift
 //  ShapeShift
 //
@@ -102,11 +102,6 @@ struct HomeView: View {
                 .padding(.vertical)
             }
             .navigationTitle("ShapeShift")
-            .onAppear{
-                print("-------------------------------------")
-                print("CHAVE CARREGADA: \(APIConfig.apiKey)")
-                print("-------------------------------------")
-            }
         }
     }
 }

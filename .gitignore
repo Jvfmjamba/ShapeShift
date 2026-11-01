@@ -4,6 +4,9 @@ DerivedData/
 *.xcuserstate
 *.xcuserdata
 *.env
+.env
+.venv/
+__pycache__/
 Secrets.xcconfig
 APIKeys.plist
 xcuserdata/*.userdata
