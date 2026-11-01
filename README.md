@@ -15,25 +15,46 @@ Aplicativo iOS para acompanhar alimentação, hábitos e progresso corporal. Voc
 
 - Swift e SwiftUI
 - SwiftData (armazenamento local)
+- Backend Python (FastAPI)
 - Google Gemini API (`gemini-2.5-flash`)
 
 ## Como rodar
 
-Requisitos: macOS com Xcode e uma chave de API do Gemini (obtenha em https://aistudio.google.com/apikey).
+### Backend
 
-1. Clone o repositório:
+Requisitos: Python 3.10+ e uma chave de API do Gemini (https://aistudio.google.com/apikey).
+
+1. Entre na pasta do backend:
    ```bash
-   git clone https://github.com/Jvfmjamba/ShapeShift.git
+   cd backend
    ```
-2. Abra o projeto no Xcode.
-3. Crie o arquivo `Secrets.xcconfig` (já está no `.gitignore`) com sua chave:
+2. Crie e ative um ambiente virtual:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
    ```
-   GEMINI_API_KEY = sua_chave_aqui
+   No Windows, use `.venv\Scripts\activate`.
+3. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
    ```
-4. Associe o `Secrets.xcconfig` à configuração do projeto (*Project → Info → Configurations*). O `Info.plist` lê a chave por `$(GEMINI_API_KEY)`.
-5. Selecione um simulador ou dispositivo iOS e execute (⌘R).
+4. Copie `.env.example` para `.env` e informe sua chave em `GEMINI_API_KEY`.
+5. Inicie o servidor:
+   ```bash
+   uvicorn main:app --host 0.0.0.0 --port 8000
+   ```
 
-Sem a chave, o app encerra ao tentar analisar uma refeição.
+O endpoint de análise é `POST /analyze`. O endpoint `GET /health` verifica se o servidor está ativo.
+
+### Aplicativo iOS
+
+1. Abra o projeto no Xcode.
+2. Em **Build Settings**, adicione uma configuração definida pelo usuário chamada `BACKEND_URL`, com a URL base do backend (por exemplo, `http://127.0.0.1:8000` para testar no simulador local).
+3. Execute o aplicativo. A chave Gemini fica somente no ambiente do backend.
+
+Para testar em um iPhone físico, use o endereço de rede ou domínio HTTPS do computador/servidor que executa o backend. Não use `127.0.0.1` no aparelho físico, pois esse endereço aponta para o próprio iPhone.
+
+**Importante:** antes de disponibilizar o backend publicamente, implemente autenticação, limitação de requisições e controles de uso. O endpoint ainda não inclui esses mecanismos e não deve ser publicado aberto à internet.
 
 ## Estrutura
 
@@ -42,8 +63,9 @@ App/          Ponto de entrada e container SwiftData
 Models/       Modelos (UserProfile, Meals, FoodItem, DailyLog, ChecklistItem...)
 ViewModels/   Estado do app
 Views/        Telas (Home, Meals, Checklist, Profile, Onboarding)
-Services/     Integração com o Gemini
-Helpers/      Leitura da chave de API
+Services/     Comunicação com o backend
+Helpers/      Configuração da URL do backend
+backend/      API Python que acessa o Gemini
 ```
 
 ## Autor
