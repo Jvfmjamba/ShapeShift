@@ -15,7 +15,8 @@ Aplicativo iOS para acompanhar alimentação, hábitos e progresso corporal. Voc
 
 - Swift e SwiftUI
 - SwiftData (armazenamento local)
-- Backend Python (FastAPI) para intermediar as chamadas ao Google Gemini\n- Google Gemini API (`gemini-2.5-flash`), acessada exclusivamente pelo backend
+- Backend Python (FastAPI) para intermediar as chamadas ao Google Gemini
+- Google Gemini API (`gemini-2.5-flash`), acessada exclusivamente pelo backend
 
 ## Como rodar
 
